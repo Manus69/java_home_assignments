@@ -5,11 +5,11 @@ import java.util.Iterator;
 
 public class Queue<T> implements QueueInterface<T>, Iterable<T>
 {
-    private final Deque<T> queue;
+    private final ArrayDeque<T> queue;
 
     public Queue()
     {
-        this.queue = new ArrayDeque();
+        this.queue = new ArrayDeque<T>();
     }
 
     public void pushBack(T item)

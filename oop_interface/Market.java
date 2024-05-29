@@ -47,7 +47,7 @@ public class Market implements MarketInterface
         takeOrders();
     }
 
-    public String updateGetInfo()
+    public String updateGetStr()
     {
         StringBuilder str = new StringBuilder();
 
