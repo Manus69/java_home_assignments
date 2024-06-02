@@ -14,3 +14,8 @@ obj = $(src:.java=.class)
 	$(cc) $^
 
 test: $(obj)
+
+del:
+	rm -f $(obj)
+
+re: del test
