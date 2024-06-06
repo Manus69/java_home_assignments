@@ -19,6 +19,14 @@ public class Teacher extends User{
         this.teacherId = teacherId;
     }
 
+    public void edit(String firstName, String secondName, String patronymic, LocalDate dateOfBirth)
+    {
+        if (firstName != null) this.setFirstName(firstName);
+        if (secondName != null) this.setSecondName(secondName);
+        if (patronymic != null) this.setPatronymic(patronymic);
+        if (dateOfBirth != null) this.setDateOfBirth(dateOfBirth);
+    }
+
     public static class TeacherComparator implements Comparator {
         @Override
         public int compare(Object o1, Object o2) {

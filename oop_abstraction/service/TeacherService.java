@@ -23,7 +23,7 @@ public class TeacherService implements UserService<Teacher>{
     public void create(String firstName, String secondName, String patronymic, LocalDate dateOfBirth)
     {
         Teacher t = new Teacher(firstName, secondName, patronymic, dateOfBirth);
-        int id = list.size() > 0 ? list.stream().max(Comparator.comparing(Teacher::getTeacherId)).get().getTeacherId() : 0;
+        long id = list.size() > 0 ? list.stream().max(Comparator.comparing(Teacher::getTeacherId)).get().getTeacherId() : 0;
 
         t.setTeacherId(id);
         list.add(t);
@@ -31,6 +31,11 @@ public class TeacherService implements UserService<Teacher>{
 
     public Teacher getByName(String firstName, String secondName)
     {
-        return list.stream().filter(x -> x.getFirstName().equals(firstName) && x.getSecondName().equals(secondName)).findAny();
+        return list.stream().filter(x -> x.getFirstName().equals(firstName) && x.getSecondName().equals(secondName)).findAny().orElse(null);
+    }
+
+    public Teacher getById(long id)
+    {
+        return list.stream().filter(x -> x.getTeacherId() == id).findAny().orElse(null);
     }
 }

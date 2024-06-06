@@ -1,9 +1,9 @@
 package service;
 
-import Student;
-import UserComparator;
-import StudentGroup;
-import Teacher;
+import data.Student;
+import data.UserComparator;
+import data.StudentGroup;
+import data.Teacher;
 
 import java.util.ArrayList;
 import java.util.Collections;

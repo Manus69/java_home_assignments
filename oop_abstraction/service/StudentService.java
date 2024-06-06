@@ -1,6 +1,6 @@
 package service;
 
-import Student;
+import data.Student;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

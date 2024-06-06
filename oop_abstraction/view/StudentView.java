@@ -1,7 +1,7 @@
 package view;
 
-import Student;
-import StudentGroup;
+import data.Student;
+import data.StudentGroup;
 
 import java.util.List;
 import java.util.logging.Logger;
