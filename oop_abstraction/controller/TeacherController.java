@@ -34,7 +34,7 @@ public class TeacherController implements UserController <Teacher>{
         
         if (tchr == null) throw new Exception("No teacher with this id");
 
-        return tchr.edit(firstName, secondName, patronymic, dateOfBirth);
+        tchr.edit(firstName, secondName, patronymic, dateOfBirth);
     }
 
     public void display()
