@@ -13,31 +13,31 @@ public class TeacherController implements UserController <Teacher>{
         this.view = new TeacherView();
     }
 
-    public void create(String firstName, String secondName, String patronymic, LocalDate dateOfBirth)
+    public void createTeacher(String firstName, String secondName, String patronymic, LocalDate dateOfBirth)
     {
         service.create(firstName, secondName, patronymic, dateOfBirth);
     }
 
-    public Teacher getByName(String firstName, String secondName)
+    public Teacher getTeacherByName(String firstName, String secondName)
     {
         return service.getByName(firstName, secondName);
     }
 
-    public Teacher getById(long id)
+    public Teacher getTeacherById(long id)
     {
         return service.getById(id);
     }
 
     public void editTeacher(long id, String firstName, String secondName, String patronymic, LocalDate dateOfBirth) throws Exception
     {
-        Teacher tchr = this.getById(id);
+        Teacher tchr = this.getTeacherById(id);
         
         if (tchr == null) throw new Exception("No teacher with this id");
 
         tchr.edit(firstName, secondName, patronymic, dateOfBirth);
     }
 
-    public void display()
+    public void displayTeachers()
     {
         view.sendToConsole(service.getAll());
     }
