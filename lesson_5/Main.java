@@ -4,11 +4,12 @@ public class Main {
     public static void main(String[] args) {
 
         Controller controler = new Controller();
-        controler.createStudent("1", "1","1","1");
-        controler.createStudent("2", "2","2","2");
-        controler.getAllStudents();
-        controler.createStudent("3", "3","3","3");
-        controler.createStudent("4", "4","4","4");
-        controler.getAllStudents();
+        
+        controler.createStudent("sudent 0", null, null, null);
+        controler.createStudent("student 1", null, null, null);
+        controler.createTeacher("teacher 0", null, null, null);
+
+        controler.printStudents();
+        controler.printTeachers();
     }
 }

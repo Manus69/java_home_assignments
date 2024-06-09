@@ -1,108 +1,117 @@
 package Controller;
 
-import Data.User;
 import Data.Group;
 import Data.Student;
 import Data.Teacher;
-import Service.UserService;
-import Service.GroupService;
 import Service.IdService;
+import Service.Service;
+import View.GroupView;
 import View.UserView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class Controller {
-    private final UserService   studentService;
-    private final UserService   teacherService;
-    private final GroupService  groupService;
-    private final UserView      userView;
-
-    //create student, teacher, group
-    // print all students, teachers ?
+    private final Service<Student>  studentService;
+    private final Service<Teacher>  teacherService;
+    private final Service<Group>    groupService;
+    private final UserView          userView;
+    private final GroupView         groupView;
 
     public Controller()
     {
-        studentService = new UserService();
-        teacherService = new UserService();
-        groupService = new GroupService();
+        studentService = new Service<Student>();
+        teacherService = new Service<Teacher>();
+        groupService = new Service<Group>();
         userView = new UserView();
+        groupView = new GroupView();
     }
 
-    public Student createStudent(String firstName, String secondName, String lastName, String dateB)
+    public int createStudent(String firstName, String secondName, String lastName, String dateB)
     {
-        Student student = new Student(firstName, secondName, lastName, dateB, IdService.nextId());
+        int id = IdService.nextId();
 
-        studentService.addUser(student);
+        studentService.add(new Student(firstName, secondName, lastName, dateB, id));
 
-        return student;
+        return id;
     }
 
-    public Teacher createTeacher(String firstName, String secondName, String lastName, String dateB)
+    public Optional<Student> getStudentById(int id)
     {
-        Teacher teacher = new Teacher(firstName, secondName, lastName, dateB, IdService.nextId());
-
-        teacherService.addUser(teacher);
-
-        return teacher;
+        return studentService.getById(id);
     }
 
-    public Group createGroup(Teacher teacher, List<Student> students)
+    public List<Student> getAllStudents()
     {
-        Group group = new Group(teacher, students, IdService.nextId());
-
-        groupService.addGroup(group);
-
-        return group;
+        return studentService.getAll();
     }
 
-    public Student getStudentById(int id) throws Exception
+    public int createTeacher(String firstName, String secondName, String lastName, String dateB)
     {
-        Optional<User> user = studentService.getById(id);
-        if (user.isPresent()) return (Student) user.get();
+        int id = IdService.nextId();
 
-        throw new Exception("No student with this id");
+        teacherService.add(new Teacher(firstName, secondName, lastName, dateB, id));
+
+        return id;
     }
 
-    public Teacher getTeacherById(int id) throws Exception
+    public Optional<Teacher> getTeacherById(int id)
     {
-        Optional<User> user = teacherService.getById(id);
-        if (user.isPresent()) return (Teacher) user.get();
-
-        throw new Exception("No teacher with this id");
+        return teacherService.getById(id);
     }
 
-    public Group getGroupById(int id) throws Exception
+    public List<Teacher> getAllTeachers()
     {
-        Optional<Group> group = groupService.getGroupById(id);
-        if (group.isPresent()) return group.get();
-
-        throw new Exception("No group with this id");
+        return teacherService.getAll();
     }
 
-    public List<Group> getGroupsByTeacherId(int id)
+    public int createGroup(int teacherId, List<Integer> studentIds) throws Exception
     {
-        return groupService.getGroupsByTeacherId(id);
+        int                 id = IdService.nextId();
+        Optional<Teacher>   teacher;
+        Optional<Student>   student;
+        List<Student>       students = new ArrayList<>();
+
+        teacher = getTeacherById(teacherId);
+        if (! teacher.isPresent()) throw new Exception("No teacher with this id");
+
+        for (int sid : studentIds)
+        {
+            student = getStudentById(sid);
+            if (! student.isPresent()) throw new Exception("No student with this id");
+
+            students.add(student.get());
+        }
+
+        groupService.add(new Group(teacher.get(), students, id));
+
+        return id;
     }
 
-    private void print(List<User> users)
+    public Optional<Group> getGroupById(int id)
     {
-        for (User u : users) userView.printToConsole(u);
+        return groupService.getById(id);
+    }
+
+    public List<Group> getAllGroups()
+    {
+        return groupService.getAll();
     }
 
     public void printStudents()
     {
-        print(studentService.getAllUsers());
+        for (Student s : studentService.getAll()) userView.printToConsole(s);
     }
 
     public void printTeachers()
     {
-        print(teacherService.getAllUsers());
+        for (Teacher t : teacherService.getAll()) userView.printToConsole(t);
     }
 
     public void printGroups()
     {
-
+        for (Group g : groupService.getAll()) groupView.printToConsole(g);
     }
 
 }

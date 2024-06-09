@@ -1,6 +1,6 @@
 package Data;
 
-public abstract class User {
+public abstract class User implements IdInterface {
     private String firstName;
     private String secondName;
     private String lastName;

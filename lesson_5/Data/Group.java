@@ -2,7 +2,7 @@ package Data;
 
 import java.util.List;
 
-public class Group {
+public class Group implements IdInterface{
     private Teacher         teacher;
     private List<Student>   students;
     private int             id;
