@@ -101,17 +101,17 @@ public class Controller {
 
     public void printStudents()
     {
-        for (Student s : studentService.getAll()) userView.printToConsole(s);
+        for (Student s : getAllStudents()) userView.printToConsole(s);
     }
 
     public void printTeachers()
     {
-        for (Teacher t : teacherService.getAll()) userView.printToConsole(t);
+        for (Teacher t : getAllTeachers()) userView.printToConsole(t);
     }
 
     public void printGroups()
     {
-        for (Group g : groupService.getAll()) groupView.printToConsole(g);
+        for (Group g : getAllGroups()) groupView.printToConsole(g);
     }
 
 }

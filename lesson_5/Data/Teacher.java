@@ -1,29 +1,21 @@
 package Data;
 
 public class Teacher extends User {
-    private int teacherId;
-
     public Teacher(String firstName, String secondName,
                    String lastName, String dateB, int teacherId) {
         super(firstName, secondName, lastName, dateB, teacherId);
     }
 
     public int getId() {
-        return teacherId;
+        return super.getId();
     }
 
     public void setId(int teacherId) {
-        this.teacherId = teacherId;
+        super.setId(teacherId);
     }
 
     @Override
     public String toString() {
-        return "Teacher{" +
-                "teacherId='" + teacherId + '\'' +
-                ", firstName='" + super.getFirstName() + '\'' +
-                ", secondName='" + super.getSecondName() + '\'' +
-                ", patronymic='" + super.getLastName() + '\'' +
-                ", dateOfBirth=" + super.getDateB() +
-                '}';
+        return String.format("Teacher {id : %d; name : %s}", this.getId(), this.getFirstName());
     }
 }

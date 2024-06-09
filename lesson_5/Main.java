@@ -1,15 +1,32 @@
+import java.util.Arrays;
+
 import Controller.*;
 
 public class Main {
     public static void main(String[] args) {
 
-        Controller controler = new Controller();
+        Controller controller = new Controller();
         
-        controler.createStudent("sudent 0", null, null, null);
-        controler.createStudent("student 1", null, null, null);
-        controler.createTeacher("teacher 0", null, null, null);
+        try
+        {
+            controller.createStudent("student 0", null, null, null);
+            controller.createStudent("student 1", null, null, null);
+            controller.createStudent("student 2", null, null, null);
+            controller.createStudent("student x", null, null, null);
 
-        controler.printStudents();
-        controler.printTeachers();
+            controller.createTeacher("teacher 0", null, null, null);
+            controller.createTeacher("teacher of something", null, null, null);
+
+    
+            controller.createGroup(4, Arrays.asList(0, 1));
+            controller.createGroup(4, Arrays.asList(1, 2, 3));
+            controller.createGroup(5, Arrays.asList(3));
+
+            controller.printGroups();
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        }
     }
 }
