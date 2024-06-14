@@ -8,6 +8,7 @@
 #include "parse_im.h"
 #include "parse_CMD.h"
 #include "InputController.h"
+#include "CalcController.h"
 
 int error(const char * cstr)
 {
@@ -61,33 +62,44 @@ void _calc_test()
 }
 
 #define MSG_ERR_INST    "Instantiation error"
-#define MSG_ERR_INPUT   "Input error"
+#define MSG_ERR_INPUTC  "Critical input error"
+#define MSG_ERR_INPUT   "Invalid input"
+#define MSG_ERR_OP      "Op failed"
 #define MSG_HELP        "Fuck you"
 #define BUFF_SIZE       (1 << 6)
 
-int main()
+static int _run(InputController * ic, CalcController * cc)
 {
-    InputController *   ic;
-    char                buff[BUFF_SIZE];
-    char *              cstr;
-    complex             z;
-    CMD                 cmd;
-
-    if (! (ic = InputController_new(buff, BUFF_SIZE))) return error(MSG_ERR_INST);
+    char *  cstr;
+    CMD     cmd;
+    complex z;
 
     while (true)
     {
-        if (! (cstr = InputController_get_input(ic))) return error(MSG_ERR_INPUT);
-
-        printf("'%s', %d\n", cstr, strlen(cstr));
+        if (! (cstr = InputController_get_input(ic))) return error(MSG_ERR_INPUTC);
 
         cmd = parse_CMD(cstr);
-        if (cmd == CMD_QUIT) break;
-
-        
-        if (parse_im(& z, cstr)) dbg_complex(& z);
+        if (cmd == CMD_UNKNOWN) error(MSG_ERR_INPUT);
     }
 
-    InputController_del(ic);
     return 0;
+}
+
+
+int main()
+{
+    char                buff[BUFF_SIZE];
+    InputController *   ic;
+    CalcController *    cc;
+    int                 status;
+
+    if (! (ic = InputController_new(buff, BUFF_SIZE)))          return error(MSG_ERR_INST);
+    if (! (cc = CalcController_new(sizeof(complex), & im_ops))) return error(MSG_ERR_INST);
+
+    status = _run(ic, cc);
+
+    InputController_del(ic);
+    CalcController_del(cc);
+
+    return status;
 }

@@ -1,15 +1,16 @@
-#include "CMD_parse.h"
+#include "parse_CMD.h"
 
 #include <string.h>
 
 static const char * _CMD_table[] =
 {
     "Q""\n",
+    "C""\n",
     "+""\n",
     "*""\n",
     "-""\n",
     "/""\n",
-    "-1""\n",
+    "inv""\n",
 };
 
 CMD CMD_parse(const char * cstr)

@@ -8,12 +8,12 @@ typedef enum CMD CMD;
 enum CMD
 {
     CMD_QUIT,
+    CMD_C,
     CMD_ADD,
     CMD_MULT,
     CMD_SUBT,
     CMD_DIV,
     CMD_INV,
-    CMD_C,
     CMD_UNKNOWN,
 };
 

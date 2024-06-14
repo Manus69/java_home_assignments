@@ -7,7 +7,8 @@
 typedef struct CalcController CalcController;
 
 CalcController *    CalcController_new(int item_size, const FieldOps * ops);
-bool                CalcController_apply(CalcController * cc, CMD cmd, void * dst);
+void                CalcController_load(CalcController * cc, const void * item);
+bool                CalcController_compute(CalcController * cc, void * dst);
 void                CalcController_del(CalcController * cc);
 
 #endif
