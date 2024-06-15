@@ -1,7 +1,7 @@
 #ifndef IM_OPS_H
 #define IM_OPS_H
 
-#include "FieldOps.h"
+#include "IFieldOps.h"
 
 bool im_id(void * dst, const void * x);
 bool im_inva(void * dst, const void * x);

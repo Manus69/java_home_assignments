@@ -20,3 +20,6 @@ del :
 
 re : del all
 
+test : flags += -DTEST
+test : re
+

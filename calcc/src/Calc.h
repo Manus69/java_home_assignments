@@ -1,9 +1,7 @@
 #ifndef CALC_H
 #define CALC_H
 
-#include <stdbool.h>
-
-#include "ops.h"
+#include "IFieldOps.h"
 
 #define MAX_ITEM_SIZE (1 << 5)
 
@@ -30,7 +28,7 @@ bool    Calc_init(Calc * calc, int item_size);
 bool    Calc_reg_loaded(const Calc * calc, int idx);
 void    Calc_set_reg_state(Calc * calc, int idx, bool val);
 void *  Calc_reg(const Calc * calc, int idx);
-void    Calc_load(Calc * calc, int idx, const void * item);
+bool    Calc_load(Calc * calc, int idx, const void * item);
 bool    Calc_op_bin(Calc * calc, op_binary op);
 bool    Calc_op_unary(Calc * calc, op_unary op);
 

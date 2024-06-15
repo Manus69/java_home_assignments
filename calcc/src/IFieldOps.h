@@ -1,7 +1,10 @@
-#ifndef FIELD_OPS_H
-#define FIELD_OPS_H
+#ifndef IFIELDOPS_H
+#define IFIELDOPS_H
 
 #include <stdbool.h>
+
+typedef bool (* op_unary)(void *, const void *);
+typedef bool (* op_binary)(void *, const void *, const void *);
 
 typedef struct FieldOps FieldOps;
 

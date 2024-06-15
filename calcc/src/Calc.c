@@ -1,5 +1,4 @@
 #include "Calc.h"
-#include "ops.h"
 
 #include <string.h>
 
@@ -40,10 +39,12 @@ void * Calc_reg(const Calc * calc, int idx)
     return (void *) calc->regs + idx * calc->item_size;
 }
 
-void Calc_load(Calc * calc, int idx, const void * item)
+bool Calc_load(Calc * calc, int idx, const void * item)
 {
     memcpy(Calc_reg(calc, idx), item, calc->item_size);
     Calc_set_reg_state(calc, idx, true);
+
+    return true;
 }
 
 bool Calc_op_bin(Calc * calc, op_binary op)

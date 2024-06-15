@@ -4,21 +4,26 @@
 
 static const char * _CMD_table[] =
 {
-    "Q""\n",
-    "C""\n",
-    "+""\n",
-    "*""\n",
-    "-""\n",
-    "/""\n",
-    "inv""\n",
+    "Q",
+    "C",
+    "+",
+    "*",
+    "-",
+    "/",
+    "inv",
 };
 
-CMD CMD_parse(const char * cstr)
+bool parse_CMD(CMD * cmd, const char * cstr)
 {
     for (int k = 0; k < CMD_UNKNOWN; k ++)
     {
-        if (strcmp(_CMD_table[k], cstr) == 0) return k;
+        if (strcmp(_CMD_table[k], cstr) == 0)
+        {
+            * cmd = k;
+
+            return true;
+        }
     }
 
-    return CMD_UNKNOWN;
+    return false;
 }

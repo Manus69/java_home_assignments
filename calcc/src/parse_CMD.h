@@ -3,6 +3,6 @@
 
 #include "CMD.h"
 
-CMD parse_CMD(const char * cstr);
+bool parse_CMD(CMD * cmd, const char * cstr);
 
 #endif
