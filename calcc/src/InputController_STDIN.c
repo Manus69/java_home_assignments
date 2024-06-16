@@ -1,8 +1,6 @@
 #include "IInputController.h"
 #include "InputController.h"
 
-#ifndef TEST
-
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
@@ -42,5 +40,3 @@ void InputController_del(InputController * ic)
 {
     free(ic);
 }
-
-#endif

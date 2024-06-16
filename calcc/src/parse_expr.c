@@ -3,20 +3,37 @@
 #include <stdlib.h>
 #include <string.h>
 
-bool        _remove_space(const char * restrict cstr, char * buff, int max_len);
+enum SYMBOL
+{
+    EYE =       'i',
+    MINUS =     '-',
+    PLUS =      '+',
+    MULT =      '*',
+    DIV =       '/',
+    HAT =       '^',
+    PARENO =    '(',
+    PARENC =    ')',
+};
+
 static int  _expr(complex * z, const char * cstr);
 static int  _term(complex * z, const char * cstr);
 
-// E : T (bop T)?+
-// T : val | ( E ) | uop T
-// val : re | re i
-// bop : + | - | * | /
-// uop : -
+static bool _remove_space(const char * restrict cstr, char * restrict buff, int max_len)
+{
+    int k;
 
-// E : T ( + | - T)+?
-// T : F ( * | / F)+?
-// F : base (^ F)?
-// base : val | ( E ) | - T
+    k = 0;
+    while (* cstr && k < max_len)
+    {
+        if (* cstr != ' ') buff[k ++] = * cstr;
+
+        cstr ++;
+    }
+
+    if (k == max_len) return false;
+
+    return true;
+}
 
 static int _re(complex * z, const char * cstr)
 {
@@ -34,14 +51,14 @@ static int _val(complex * z, const char * cstr)
 {
     int len;
 
-    if (* cstr == 'i')
+    if (* cstr == EYE)
     {
         * z = I;
         return 1;
     }
 
     if ((len = _re(z, cstr)) <= 0) return len;
-    if (cstr[len] == 'i')
+    if (cstr[len] == EYE)
     {
         * z *= I;
         len ++;
@@ -54,15 +71,15 @@ static int _base(complex * z, const char * cstr)
 {
     int len;
 
-    if (* cstr == '(')
+    if (* cstr == PARENO)
     {
         if ((len = _expr(z, cstr + 1)) <= 0) return len;
-        if (cstr[len + 1] != ')') return -1;
+        if (cstr[len + 1] != PARENC) return -1;
 
         return len + 2;
     }
 
-    if (* cstr == '-')
+    if (* cstr == MINUS)
     {
         if ((len = _term(z, cstr + 1)) <= 0) return len;
 
@@ -81,8 +98,8 @@ static int _factor(complex * z, const char * cstr)
 
     if ((len_lhs = _base(& base, cstr)) <= 0) return len_lhs;
     cstr += len_lhs;
-    
-    if (* cstr == '^')
+
+    if (* cstr == HAT)
     {
         if ((len_rhs = _factor(& power, cstr + 1)) <= 0) return len_rhs;
         * z = cpow(base, power);
@@ -103,13 +120,13 @@ static int _term(complex * z, const char * cstr)
     if ((len_lhs = _factor(& lhs, cstr)) <= 0) return len_lhs;
 
     cstr += len_lhs;
-    while (* cstr == '*' || * cstr == '/')
+    while (* cstr == MULT || * cstr == DIV)
     {
         len_rhs = _factor(& rhs, cstr + 1);
         if (len_rhs <= 0) return len_rhs;
 
-        if (* cstr == '*') lhs *= rhs;
-        if (* cstr == '/') lhs /= rhs;
+        if (* cstr == MULT) lhs *= rhs;
+        if (* cstr == DIV) lhs /= rhs;
 
         len_lhs += len_rhs + 1;
         cstr += len_rhs + 1;
@@ -134,13 +151,13 @@ static int _expr(complex * z, const char * cstr)
         return len_lhs;
     }
 
-    while (* cstr == '+' || * cstr == '-')
+    while (* cstr == PLUS || * cstr == MINUS)
     {
         len_rhs = _term(& rhs, cstr + 1);
         if (len_rhs <= 0) return len_rhs;
 
-        if (* cstr == '+') lhs += rhs;
-        if (* cstr == '-') lhs -= rhs;
+        if (* cstr == PLUS) lhs += rhs;
+        if (* cstr == MINUS) lhs -= rhs;
 
         len_lhs += len_rhs + 1;
         cstr += len_rhs + 1;
@@ -151,15 +168,22 @@ static int _expr(complex * z, const char * cstr)
     return len_lhs;
 }
 
+// Grammar
+// E : T ( + | - T)?+
+// T : F ( * | / F)?+
+// F : base (^ F)?
+// base : val | ( E ) | -T
+
 #define BUFF_SIZE (1 << 6)
-bool parse_expr(complex * z, const char * cstr)
+
+bool parse_expr(void * number, const char * cstr)
 {
     char    buff[BUFF_SIZE] = {};
     int     len;
 
     if (! _remove_space(cstr, buff, BUFF_SIZE)) return false;
 
-    len = _expr(z, buff);
+    if ((len = _expr(number, buff)) > 0) return ! buff[len];
 
-    return len > 0;
+    return false;
 }

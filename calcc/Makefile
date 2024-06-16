@@ -21,5 +21,7 @@ del :
 re : del all
 
 test : flags += -DTEST
-test : re
+test :
+	$(cc) $(flags) $(src_dir)/main.c -c -o $(obj_dir)/main.o
+test : all
 
