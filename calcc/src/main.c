@@ -7,7 +7,7 @@
 #include <unistd.h>
 
 #ifndef TEST
-#define MSG_INSTC "Critical alloc falure"
+#define MSG_INSTC "Critical alloc failure"
 #define BUFF_SIZE (1 << 6)
 
 int main()
