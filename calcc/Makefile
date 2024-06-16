@@ -6,8 +6,14 @@ src_dir = src
 obj_dir = obj
 src = $(wildcard $(src_dir)/*.c)
 obj = $(addprefix $(obj_dir)/,$(notdir $(src:.c=.o)))
+main = $(src_dir)/main.c
+main_obj = $(obj_dir)/main.o
 
+all : main
 all : target
+
+main :
+	$(cc) $(flags) -c $(main) -o $(main_obj)
 
 $(obj_dir)/%.o : $(src_dir)/%.c
 	$(cc) $(flags) -c $^ -o $@
@@ -21,7 +27,6 @@ del :
 re : del all
 
 test : flags += -DTEST
-test :
-	$(cc) $(flags) $(src_dir)/main.c -c -o $(obj_dir)/main.o
+test : main
 test : all
 

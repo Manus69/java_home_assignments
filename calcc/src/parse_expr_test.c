@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <complex.h>
 
 static const char * _ins[] =
 {
