@@ -9,6 +9,8 @@ obj = $(addprefix $(obj_dir)/,$(notdir $(src:.c=.o)))
 main = $(src_dir)/main.c
 main_obj = $(obj_dir)/main.o
 
+
+all : dir
 all : main
 all : target
 
@@ -26,6 +28,10 @@ del :
 
 re : del all
 
+dir :
+	mkdir -p $(obj_dir)
+
+test : dir
 test : flags += -DTEST
 test : main
 test : all
